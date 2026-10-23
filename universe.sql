@@ -16,29 +16,34 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE universe;
---
--- Name: universe; Type: DATABASE; Schema: -; Owner: freecodecamp
---
-
-CREATE DATABASE universe WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
-
-
-ALTER DATABASE universe OWNER TO freecodecamp;
-
-\connect universe
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
+ALTER TABLE ONLY public.star DROP CONSTRAINT star_galaxy_id_fkey;
+ALTER TABLE ONLY public.planet DROP CONSTRAINT planet_star_id_fkey;
+ALTER TABLE ONLY public.moon DROP CONSTRAINT moon_planet_id_fkey;
+ALTER TABLE ONLY public.star DROP CONSTRAINT star_pkey;
+ALTER TABLE ONLY public.star DROP CONSTRAINT star_name_key;
+ALTER TABLE ONLY public.planet_types DROP CONSTRAINT planet_types_pkey;
+ALTER TABLE ONLY public.planet_types DROP CONSTRAINT planet_types_name_key;
+ALTER TABLE ONLY public.planet DROP CONSTRAINT planet_pkey;
+ALTER TABLE ONLY public.planet DROP CONSTRAINT planet_name_key;
+ALTER TABLE ONLY public.moon DROP CONSTRAINT moon_pkey;
+ALTER TABLE ONLY public.moon DROP CONSTRAINT moon_name_key;
+ALTER TABLE ONLY public.galaxy DROP CONSTRAINT galaxy_pkey;
+ALTER TABLE ONLY public.galaxy DROP CONSTRAINT galaxy_name_key;
+ALTER TABLE public.star ALTER COLUMN star_id DROP DEFAULT;
+ALTER TABLE public.planet_types ALTER COLUMN planet_types_id DROP DEFAULT;
+ALTER TABLE public.planet ALTER COLUMN planet_id DROP DEFAULT;
+ALTER TABLE public.moon ALTER COLUMN moon_id DROP DEFAULT;
+ALTER TABLE public.galaxy ALTER COLUMN galaxy_id DROP DEFAULT;
+DROP SEQUENCE public.star_star_id_seq;
+DROP TABLE public.star;
+DROP SEQUENCE public.planet_types_planet_types_id_seq;
+DROP TABLE public.planet_types;
+DROP SEQUENCE public.planet_planet_id_seq;
+DROP TABLE public.planet;
+DROP SEQUENCE public.moon_moon_id_seq;
+DROP TABLE public.moon;
+DROP SEQUENCE public.galaxy_galaxy_id_seq;
+DROP TABLE public.galaxy;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -323,8 +328,8 @@ INSERT INTO public.planet VALUES (12, 'Rigel b', 6, 'Gas Giant', false, 300);
 --
 
 INSERT INTO public.planet_types VALUES (1, 'Terrestrial', 'Rocky planets with solid surfaces');
-INSERT INTO public.planet_types VALUES (2, 'Gas Giant', 'Large planets composed mainly of gases');
-INSERT INTO public.planet_types VALUES (3, 'Ice Giant', 'Planets containing large amounts of icy materials');
+INSERT INTO public.planet_types VALUES (2, 'Gas Giant', 'Large planets primarily composed of gases');
+INSERT INTO public.planet_types VALUES (3, 'Ice Giant', 'Planets composed largely of icy materials');
 
 
 --
